@@ -16,7 +16,6 @@ export default {
   components: { Conversations, Loader },
   async created() {
     this.isLoading = true;
-    const { id: currUrlConvId } = this.$route.params;
     await this.$store.dispatch("fetchConversationsList");
     await this.$store.dispatch("fetchAvatars");
     this.isLoading = false;

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { conversationsList, avatars, currentConversation } from './../../api/fetch'
 
 export default {
     state: {
@@ -27,7 +27,7 @@ export default {
         async fetchConversationsList({ commit }) {
 
             try {
-                const { data } = await axios.get(`https://jsonplaceholder.typicode.com/users`);
+                const { data } = await conversationsList();
                 commit('setConversationsList', data);
             } catch (error) {
                 console.log(error);
@@ -35,7 +35,7 @@ export default {
         },
         async fetchAvatars({ commit }) {
             try {
-                const { data } = await axios.get(`https://jsonplaceholder.typicode.com/albums/1/photos`);
+                const { data } = await avatars()
                 commit('setAvatars', data);
             } catch (error) {
                 console.log(error);
@@ -44,7 +44,7 @@ export default {
         async fetchCurrentConversation({ commit, state }, id) {
             state.isLoading = true
             try {
-                const { data } = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}/posts`);
+                const { data } = await currentConversation(id)
                 commit('setCurrentConversation', data)
                 state.isLoading = false
             } catch (error) {
