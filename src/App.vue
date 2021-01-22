@@ -1,32 +1,61 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div v-if="isLoading" id="app">
+    <Loader class="loader"></Loader>
+  </div>
+  <div v-else id="app">
+    <Conversations />
+    <router-view />
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import Conversations from "./components/Conversations.vue";
+import Loader from "./components/Loader.vue";
+export default {
+  name: "App",
+  components: { Conversations, Loader },
+  async created() {
+    this.isLoading = true;
+    const { id: currUrlConvId } = this.$route.params;
+    await this.$store.dispatch("fetchConversationsList");
+    await this.$store.dispatch("fetchAvatars");
+    this.isLoading = false;
+  },
+  data() {
+    return {
+      isLoading: false,
+    };
+  },
+};
+</script>
+
+<style lang="scss" >
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+body {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+#app {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #f9f9ff;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #dededf;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #7d7d84;
 }
 </style>

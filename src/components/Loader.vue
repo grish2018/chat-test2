@@ -1,0 +1,39 @@
+<template>
+  <div class="loader"></div>
+</template>
+
+<script>
+export default {
+  name: "Loader",
+};
+</script>
+
+<style lang="scss" scoped>
+.loader {
+  margin: 0 auto;
+  position: inherit;
+  display: inline-block;
+  top: 35%;
+  width: 80px;
+  height: 80px;
+  &:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #0e8ffa;
+    border-color: #0e8ffa transparent #0e8ffa transparent;
+    animation: loader 1.2s linear infinite;
+  }
+}
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+</style>
